@@ -44,12 +44,6 @@ body {
 	background: #f8e8e2;
 	background-image: url("../img/bg/bg-ds.svg");
 	background-repeat: no-repeat;
-	background-image: image-set
-		(
-			url("../img/bg/bg-lp.svg"),
-			url("../img/bg/bg-tb.svg"),
-			url("../img/bg/bg-mb.svg")
-		);
 	background-size: contain;
 	background-position: top;
 	color: #000;
@@ -120,7 +114,7 @@ iframe {
 
 /* header */
 .header {
-	padding: 32px 0;
+	padding: 36px 0;
 }
 
 .header__container {
@@ -135,6 +129,8 @@ iframe {
 }
 
 .header__btn-order {
+	width: 24px;
+	height: 24px;
 	margin-right: 32px;
 }
 .header__btn {
@@ -157,13 +153,14 @@ iframe {
 
 .hero__cups {
 	display: flex;
+	align-items: flex-end;
 	gap: 20px;
 	padding-top: 270px;
 }
 
 .hero__cup {
-	width: 380px;
-	height: 382px;
+	width: 100%;
+	aspect-ratio: 1/1;
 	border-radius: 24px;
 	position: relative;
 }
@@ -173,6 +170,7 @@ iframe {
 }
 .hero__cup-orange {
 	background-color: #ffb72a;
+	align-self: flex-start;
 	margin-top: -70px;
 }
 .hero__cup-green {
@@ -181,7 +179,8 @@ iframe {
 
 .hero__img {
 	position: absolute;
-	bottom: 120px;
+	width: 45%;
+	bottom: 30%;
 	left: 50%;
 	transform: translateX(-50%);
 }
@@ -223,28 +222,29 @@ iframe {
 	display: flex;
 	justify-content: space-between;
 	align-items: flex-start;
-	margin-bottom: 2px;
+	flex-wrap: wrap;
+	margin-bottom: 10px;
+	gap: 2px 5px;
 }
 .coctail__title {
 	font-weight: 400;
-	margin-right: 10px;
-	font-size: 18px;
+	font-size: inherit;
 }
 .coctail__price {
 	font-weight: 600;
 }
 .coctail__size {
+	flex: 0 0 100%;
 	font-weight: 600;
 	font-size: 12px;
 	color: #c1c1c1;
 	align-self: flex-end;
-	margin-bottom: 10px;
+	text-align: end;
 }
 .coctail__btn {
 	margin-top: auto;
 }
 /* /coctail */
-
 /* /goods */
 
 /* footer */
@@ -270,6 +270,7 @@ iframe {
 .footer__list {
 	grid-area: developer;
 	justify-self: end;
+	min-width: 230px;
 }
 .footer__item {
 	margin-bottom: 10px;
@@ -279,3 +280,197 @@ iframe {
 	margin-bottom: 0;
 }
 /* /footer */
+
+@media (max-width: 1260px) {
+	body {
+		background-image: url("../img/bg/bg-lp.svg");
+	}
+
+	.container {
+		--width: 880px;
+	}
+
+	.hero {
+		padding-bottom: 30px;
+	}
+
+	.hero__title {
+		font-size: 64px;
+		max-width: 680px;
+	}
+
+	.hero__img {
+		width: 60%;
+		bottom: 16px;
+	}
+
+	.hero__cups {
+		padding-top: 245px;
+	}
+	.hero__cup-orange {
+		margin-top: -50px;
+	}
+
+	.goods__list {
+		grid-template-columns: repeat(3, 280px);
+	}
+}
+
+@media (max-width: 940px) {
+	body {
+		background-image: url("../img/bg/bg-tb.svg");
+		font-size: 14px;
+	}
+
+	.container {
+		--width: 608px;
+		--padding: 15px;
+	}
+
+	.btn {
+		box-shadow: 0px 2px 10px 0px #fa5a5a;
+		padding: 8px 20px;
+	}
+
+	.header {
+		padding: 34px 0 20px;
+	}
+
+	.header__btn-order {
+		margin-right: 24px;
+	}
+
+	.hero {
+		padding-bottom: 46px;
+	}
+
+	.hero__title {
+		font-size: 44px;
+		max-width: 468px;
+	}
+
+	.hero__cups {
+		padding-top: 165px;
+		gap: 13px;
+	}
+
+	.hero__cup {
+		border-radius: 12px;
+	}
+
+	.hero__img {
+		bottom: 10%;
+	}
+
+	.goods {
+		padding-top: 40px;
+		padding-bottom: 50px;
+	}
+
+	.goods__title {
+		font-size: 24px;
+		margin-bottom: 16px;
+	}
+
+	.goods__list {
+		grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+		gap: 16px;
+	}
+
+	.coctail {
+		border-radius: 12px;
+		padding: 8px;
+	}
+
+	.goods__picture img {
+		border-radius: 12px;
+		margin-bottom: 8px;
+	}
+
+	.coctail__content {
+		padding: 0;
+	}
+
+	.coctail__text {
+		row-gap: 8px;
+		margin-bottom: 16px;
+	}
+
+	.coctail__title {
+		flex: 0 0 100%;
+		font-size: 14px;
+	}
+
+	.coctail__price {
+		font-size: 14px;
+	}
+
+	.coctail__size {
+		flex: auto;
+		font-size: 10px;
+	}
+
+	.footer {
+		padding-bottom: 24px;
+	}
+	.footer__container {
+		gap: 24px;
+	}
+
+	.footer__item {
+		margin-bottom: 6pxp;
+	}
+}
+
+@media (max-width: 640px) {
+	body {
+		background-image: url("../img/bg/bg-mb.svg");
+	}
+
+	.header {
+		padding: 31px 0;
+	}
+
+	.headder__logo {
+		width: 120px;
+	}
+
+	.header__btn {
+		display: none;
+	}
+
+	.header__btn-order {
+		margin-right: 0;
+	}
+
+	.hero {
+		padding-top: 0;
+		padding-bottom: 120px;
+	}
+
+	.hero__title {
+		font-size: 36px;
+	}
+
+	.hero__cups {
+		display: none;
+	}
+
+	.goods {
+		padding-top: 40px;
+		padding-bottom: 30px;
+	}
+
+	.goods__list {
+		gap: 10px;
+	}
+
+	.footer__logo {
+		width: 120px;
+	}
+
+	.footer__container {
+		grid-template-areas: "logo" "copiright" "developer";
+		gap: 20px;
+	}
+}
