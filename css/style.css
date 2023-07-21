@@ -199,6 +199,7 @@ iframe {
 	grid-template-columns: repeat(4, 280px);
 	gap: 20px;
 }
+
 /* coctail */
 .coctail {
 	display: flex;
@@ -219,19 +220,19 @@ iframe {
 	padding: 12px;
 }
 .coctail__text {
-	display: flex;
-	justify-content: space-between;
-	align-items: flex-start;
-	flex-wrap: wrap;
+	display: grid;
+	grid-template-columns: 3fr 1fr;
 	margin-bottom: 10px;
 	gap: 2px 5px;
 }
 .coctail__title {
+	grid-row: 1/3;
 	font-weight: 400;
 	font-size: inherit;
 }
 .coctail__price {
 	font-weight: 600;
+	text-align: end;
 }
 .coctail__size {
 	flex: 0 0 100%;
