@@ -282,6 +282,127 @@ iframe {
 }
 /* /footer */
 
+/* modal */
+.modal {
+	position: fixed;
+	inset: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+	cursor: pointer;
+	padding: 20px;
+	overflow-y: auto;
+	display: none;
+}
+
+.modal__main {
+	margin: auto;
+	cursor: default;
+	width: 100%;
+	max-width: 780px;
+}
+
+.order {
+	border-radius: 24px;
+	background-color: #f8e8e2;
+	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+	padding: 40px 60px;
+}
+.order__title {
+	font-size: 44px;
+	font-weight: 900;
+	line-height: 110%; /* 48.4px */
+	margin-bottom: 40px;
+}
+.order__list {
+	margin-bottom: 40px;
+}
+.order__item {
+	border-top: 1px solid #fff;
+	padding-top: 16px;
+	padding-bottom: 16px;
+	display: grid;
+	grid-template-columns: 70px 1fr min-content;
+	gap: 12px;
+	grid-template-areas:
+		"image info delete"
+		"image info price";
+}
+
+.order__item:last-child {
+	border-bottom: 1px solid #fff;
+}
+.order__img {
+	grid-area: image;
+	max-width: 100%;
+}
+.order__info {
+	grid-area: info;
+}
+.order__name {
+	font-weight: 400;
+	font-size: inherit;
+}
+
+.order__topping-item {
+	margin-bottom: 8px;
+	color: #d5b4a8;
+	font-size: 12px;
+	font-weight: 600;
+}
+
+.order__topping-item:last-child {
+	margin-bottom: 0;
+}
+.order__item-delete {
+	grid-area: delete;
+	background-image: url("../img/order_close.svg");
+	width: 24px;
+	height: 24px;
+	justify-self: end;
+}
+.order__item-price {
+	grid-area: price;
+	justify-self: end;
+	align-self: end;
+}
+.order__price {
+	display: flex;
+	justify-content: space-between;
+	flex-direction: column;
+}
+
+.order__price-content {
+	display: flex;
+	justify-content: space-between;
+	padding-bottom: 40px;
+}
+.order__price-title {
+	font-weight: 600;
+}
+.order__total-price {
+	font-weight: 600;
+}
+
+.order__form {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 32px 20px;
+}
+.order__label {
+	width: 100%;
+}
+.order__input {
+	width: 100%;
+	height: 44px;
+	padding: 0 16px;
+	border-radius: 8px;
+	background-color: #fff;
+	border: none;
+}
+.order__submint {
+	justify-self: end;
+	grid-column: 2/3;
+}
+
 @media (max-width: 1260px) {
 	body {
 		background-image: url("../img/bg/bg-lp.svg");
@@ -475,3 +596,5 @@ iframe {
 		gap: 20px;
 	}
 }
+
+/* modal */

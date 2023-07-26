@@ -41,6 +41,13 @@ const creatCard = (item) => {
 
 // функция получения данных 
 const init = async () => {
+	// const headerBtnOrder = document.querySelector('.header__btn-order');
+	// headerBtnOrder.addEventListener('click',() => {
+	// 	modal__order
+	// })
+	modalController({
+		modal: '.modal__order', btnOpen: '.header__btn-order'
+	});
 	const goodsListElem = document.querySelector('.goods__list');
 	const data = await getData();
 
@@ -53,5 +60,49 @@ const init = async () => {
 
 	goodsListElem.append(...cartsCoctail)
 }
+
+// функция модального окна
+const modalController = ({ modal, btnOpen, time = 300 }) => {
+	const buttomElem = document.querySelector(btnOpen);
+	const modalElem = document.querySelector(modal);
+
+	modalElem.style.cssText = `
+	display:flex;
+	visibility:hidden;
+	opacity:0;
+	transution: opacity ${time}ms ease-in-out
+	`
+
+	// функция закрытия модального окна
+	const closeModal = (event) => {
+		const target = event.target;
+		const code = event.code;
+
+		if (target === modalElem || code === 'Escape') {
+			modalElem.style.opacity = 0;
+
+			setTimeout(() => {
+				modalElem.style.visibility = 'hidden';
+			}, time);
+
+			window.removeaddEventListener('keydown', closeModal);
+		}
+	}
+
+	// функция открытия модального окна
+	const openModal = () => {
+		modalElem.style.visibility = 'visible';
+		modalElem.style.opacity = 1;
+		window.addEventListener('keydown', closeModal)
+	}
+
+	// событие click модального окна
+	buttomElem.addEventListener('click', openModal);
+	modalElem.addEventListener('click', closeModal);
+
+	return { openModal, closeModal };
+}
+
+
 
 init();
