@@ -70,6 +70,11 @@ const init = async () => {
 	modalController({
 		modal: '.modal__order', btnOpen: '.header__btn-order',
 	});
+
+	modalController({
+		modal: ".modal__make",
+		btnOpen: ".coctail__btn-make",
+	})
 	const goodsListElem = document.querySelector('.goods__list');
 	const data = await getData();
 

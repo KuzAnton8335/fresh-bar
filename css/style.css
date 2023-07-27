@@ -298,7 +298,14 @@ iframe {
 	margin: auto;
 	cursor: default;
 	width: 100%;
+}
+
+.modal__main-order {
 	max-width: 780px;
+}
+
+.modal__main-make {
+	max-width: 640px;
 }
 
 .order {
@@ -402,6 +409,89 @@ iframe {
 .order__submint {
 	justify-self: end;
 	grid-column: 2/3;
+}
+
+/* modal__make */
+
+.make {
+	border-radius: 24px;
+	background-color: #f8e8e2;
+	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+	padding: 60px 40px;
+}
+.make__title {
+	font-size: 44px;
+	font-weight: 900;
+	line-height: 110%;
+	margin-bottom: 40px;
+}
+.make__form {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 40px;
+}
+.make__fieldset {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+.make__fieldset-ingredients {
+	grid-area: ingredients;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 20px 55px;
+	margin-bottom: 32px;
+}
+.make__upsale {
+	color: #d5b4a8;
+	font-size: 12px;
+	font-weight: 400;
+	line-height: 110%; /* 13.2px */
+}
+
+.make__fieldset-toppings {
+	width: 150px;
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 20px;
+}
+.make__fieldset-title {
+	display: inline-block;
+	font-weight: 400;
+	line-height: 110%;
+	color: #d5b4a8;
+	padding-bottom: 24px;
+}
+.make__fieldset-cup {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 20px;
+}
+
+.make__wrap-add {
+	margin-bottom: 40px;
+	display: flex;
+	gap: 55px;
+}
+
+.make__footer {
+	display: flex;
+	align-items: center;
+	gap: 30px;
+}
+.make__add-btn {
+	min-width: 232px;
+}
+
+.make__total-price {
+	font-weight: 600;
+	line-height: 110%;
+}
+.make__total-size {
+	color: #d5b4a8;
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 110%; /* 13.2px */
 }
 
 @media (max-width: 1260px) {
