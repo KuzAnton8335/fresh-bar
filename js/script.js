@@ -39,14 +39,36 @@ const creatCard = (item) => {
 	return cocktail;
 }
 
+// функция блокировки скролла при модальном окне
+const scrollServices = {
+	scrollPosition: 0,
+	disabledScroll() {
+		this.scrollPosition = window.scrollY;
+		document.documentElement.style.scrollBehavior = 'auto';
+		document.body.style.cssText = `
+	 		overflow: hidden;
+	  		position:fixed;
+     		top: -${this.scrollPosition}px;
+	  		left:0;
+	  		height:100vh;
+	  		width:100vw;
+	  		padding-right: ${window.innerWidth - document.body.offsetWidth}px;
+	  `
+	},
+	enableScroll() {
+		document.body.style.cssText = '';
+		window.scroll({
+			top: this.scrollPosition
+		})
+		document.documentElement.style.scrollBehavior = '';
+	}
+
+}
+
 // функция получения данных 
 const init = async () => {
-	// const headerBtnOrder = document.querySelector('.header__btn-order');
-	// headerBtnOrder.addEventListener('click',() => {
-	// 	modal__order
-	// })
 	modalController({
-		modal: '.modal__order', btnOpen: '.header__btn-order'
+		modal: '.modal__order', btnOpen: '.header__btn-order',
 	});
 	const goodsListElem = document.querySelector('.goods__list');
 	const data = await getData();
@@ -77,15 +99,16 @@ const modalController = ({ modal, btnOpen, time = 300 }) => {
 	const closeModal = (event) => {
 		const target = event.target;
 		const code = event.code;
-
+		// условия закрытия модального окна кнопкой Escape
 		if (target === modalElem || code === 'Escape') {
 			modalElem.style.opacity = 0;
 
 			setTimeout(() => {
 				modalElem.style.visibility = 'hidden';
+				scrollServices.enableScroll();
 			}, time);
 
-			window.removeaddEventListener('keydown', closeModal);
+			window.removeEventListener('keydown', closeModal);
 		}
 	}
 
@@ -93,7 +116,8 @@ const modalController = ({ modal, btnOpen, time = 300 }) => {
 	const openModal = () => {
 		modalElem.style.visibility = 'visible';
 		modalElem.style.opacity = 1;
-		window.addEventListener('keydown', closeModal)
+		window.addEventListener('keydown', closeModal);
+		scrollServices.disabledScroll();
 	}
 
 	// событие click модального окна
