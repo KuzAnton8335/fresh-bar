@@ -494,6 +494,110 @@ iframe {
 	line-height: 110%; /* 13.2px */
 }
 
+/* кастомный checkbox и  radio checkbox*/
+.checkbox {
+	position: relative;
+	display: block;
+	padding-left: 32px;
+	line-height: 24px;
+	cursor: pointer;
+}
+.input__chekbox {
+	position: absolute;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	width: 24px;
+	height: 24px;
+	margin-left: -32px;
+}
+
+.input__chekbox::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	display: block;
+	border-radius: 2px;
+	background-color: #fff;
+}
+
+.input__chekbox::after {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 12px;
+	height: 15px;
+	background-image: url("../img/checkbox-icon.svg");
+	background-position: center;
+	background-repeat: no-repeat;
+	opacity: 0;
+	transition: opacity 0.3s ease-in-out;
+}
+
+.input__chekbox:checked::after {
+	opacity: 1;
+}
+
+.input__chekbox:hover::before {
+	background-color: #f6f6f6;
+}
+
+.input__chekbox:focus::before {
+	border-radius: 2px;
+	border: 1px solid #d5b4a8;
+	background: #fff;
+}
+
+.input__chekbox:focus-visible {
+	outline: none;
+}
+
+.radio {
+	position: relative;
+	display: block;
+	padding-left: 32px;
+	line-height: 24px;
+	cursor: pointer;
+}
+
+.input__radio {
+	position: absolute;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	width: 24px;
+	height: 24px;
+	margin-left: -32px;
+}
+.input__radio::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	display: block;
+	border-radius: 50%;
+	background-color: #fff;
+}
+
+.input__radio::after {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 8px;
+	height: 8px;
+	background-color: #000;
+	border-radius: 50%;
+	opacity: 0;
+	transition: opacity 0.3s ease-in-out;
+}
+
+.input__radio:checked::after {
+	opacity: 1;
+}
+
 @media (max-width: 1260px) {
 	body {
 		background-image: url("../img/bg/bg-lp.svg");
