@@ -147,12 +147,53 @@ const calculateMakeYuorOwn = () => {
 	hendlerChange();
 };
 
+//калькулятор подсчета в остальных формах
+const calculateAdd = () => {
+	const modalAdd = document.querySelector('.modal__add');
+	const formAdd = document.querySelector('.make__form-add');
+	const makeTitel = modalAdd.querySelector('.make__title');
+	const makeInputTitle = modalAdd.querySelector('.make__input-title')
+	const makeTitelPrice = modalAdd.querySelector('.make__total-price')
+	const makeInputPrice = modalAdd.querySelector('.make__input-price')
+	const makeTitelSize = modalAdd.querySelector('.make__total-size')
+	const makeInputSize = modalAdd.querySelector('.make__input-size')
+	const makeInputStartPrice = modalAdd.querySelector('.make__input-start-price')
+	console.log(makeTitel);
+
+	const handlerChange = () => {
+		const totalPrice = calculateTotalPrice(formAdd, +makeInputStartPrice.value);
+
+		makeTitelPrice.textContent = `${totalPrice}₽;`
+		makeInputPrice.value = totalPrice;
+	}
+
+	formAdd.addEventListener('change', handlerChange);
+
+	const fillInform = (data) => {
+		makeTitel.textContent = data.title
+		makeInputTitle.value = data.title
+		makeTitelPrice.textContent = `${data.price}₽`
+		makeInputStartPrice.value = data.price
+		makeInputPrice.value = data.price
+		makeTitelSize.textContent = data.size
+		makeInputSize.value = data.size
+		handlerChange();
+	};
+
+	const resetForm = () => {
+		makeTitel.textContent = '';
+		makeTitelPrice.textContent = '';
+		makeTitelSize.textContent = '';
+		formAdd.reset();
+	}
+	return { fillInform, resetForm }
+}
+
 // функция получения данных 
 const init = async () => {
 	modalController({
 		modal: '.modal__order', btnOpen: '.header__btn-order',
 	});
-
 	calculateMakeYuorOwn();
 
 	modalController({
@@ -172,16 +213,25 @@ const init = async () => {
 
 	goodsListElem.append(...cartsCoctail)
 
-
+	const { fillInform, resetForm } = calculateAdd();
 
 	modalController({
 		modal: '.modal__add',
-		btnOpen: '.coctail__btn-add'
+		btnOpen: '.coctail__btn-add',
+
+		open({ btn }) {
+			const id = btn.dataset.id;
+			const item = data.find(item => item.id.toString() === id);
+			fillInform(item)
+		},
+		close: resetForm,
 	})
+
+
 }
 
 // функция модального окна
-const modalController = ({ modal, btnOpen, time = 300 }) => {
+const modalController = ({ modal, btnOpen, time = 300, open, close }) => {
 	const buttomElems = document.querySelectorAll(btnOpen);
 	const modalElem = document.querySelector(modal);
 
@@ -203,6 +253,9 @@ const modalController = ({ modal, btnOpen, time = 300 }) => {
 			setTimeout(() => {
 				modalElem.style.visibility = 'hidden';
 				scrollServices.enableScroll();
+				if (close) {
+					close();
+				}
 			}, time);
 
 			window.removeEventListener('keydown', closeModal);
@@ -210,7 +263,10 @@ const modalController = ({ modal, btnOpen, time = 300 }) => {
 	}
 
 	// функция открытия модального окна
-	const openModal = () => {
+	const openModal = (e) => {
+		if (open) {
+			open({ btn: e.target });
+		}
 		modalElem.style.visibility = 'visible';
 		modalElem.style.opacity = 1;
 		window.addEventListener('keydown', closeModal);
