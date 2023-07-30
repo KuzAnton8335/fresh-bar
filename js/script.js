@@ -15,6 +15,28 @@ const price = {
 	Пластиковый: 0,
 };
 
+const cartDataControl = {
+	get() {
+		return JSON.parse(localStorage.getItem('freshyBarCart') || '[]');
+	},
+	add(item) {
+		const cartData = this.get();
+		item.idls = Math.random().toString(36).substring(2, 10);
+		cartData.push(item);
+		localStorage.setItem('freshyBarCart', JSON.stringify(cartData));
+	},
+	remove(idls) {
+		const cartData = this.get();
+		const index = cart.findIndex((item) => item.idls === idls);
+		if (index !== -1) {
+			cartData.splice(index, 1);
+		}
+		localStorage.setItem('freshyBarCart', JSON.stringify(cartData));
+	},
+	clear() {
+		localStorage.removeItem('freshyBarCart');
+	}
+}
 
 
 // функция подключения k данным на сервере
@@ -131,20 +153,61 @@ const calculateTotalPrice = (form, startPrice) => {
 };
 
 
+const formControl = (form, cb) => {
+	form.addEventListener('submit', (e) => {
+		e.preventDefault();
+
+		const data = getFormData(form);
+		cartDataControl.add(data);
+
+		if (cb) {
+			cb();
+		}
+	})
+}
+
 // данные для калькулятора 
 const calculateMakeYuorOwn = () => {
-	const formMakeOwn = document.querySelector('.make__form-your-own');
-	const makeInputPrice = formMakeOwn.querySelector('.maik__input-price');
-	const makeTotalPrice = formMakeOwn.querySelector('.make__total-price');
+	const modalMakeOwn = document.querySelector('.modal__make-your-own');
+	const formMakeOwn = modalMakeOwn.querySelector('.make__form-your-own');
+	const makeInputPrice = modalMakeOwn.querySelector('.maik__input-price');
+	const makeTotalPrice = modalMakeOwn.querySelector('.make__total-price');
+	const makeInputTitle = modalMakeOwn.querySelector('.make__input-title')
+	const makeAddBtn = modalMakeOwn.querySelector(".make__add-btn");
+
 
 	const hendlerChange = () => {
 		const totalPrice = calculateTotalPrice(formMakeOwn, 150);
+		const data = getFormData(formMakeOwn);
+
+		if (data.ingredients) {
+			const ingredients = Array.isArray(data.ingredients)
+				? data.ingredients.join(", ")
+				: data.ingredients;
+
+			makeInputTitle.value = `Конструктор: ${ingredients}`;
+			makeAddBtn.disabled = false;
+		}
+		else {
+			makeAddBtn.disabled = true;
+		}
 		makeInputPrice.value = totalPrice;
 		makeTotalPrice.textContent = `${totalPrice} ₽`;
 	}
 
 	formMakeOwn.addEventListener('change', hendlerChange);
+	formControl(formMakeOwn, () => {
+		modalMakeOwn.closeModal('close');
+	});
 	hendlerChange();
+
+	const resetForm = () => {
+		makeTitelPrice.textContent = '';
+		makeAddBtn.disabled = true;
+		formAdd.reset();
+	}
+
+	return { resetForm };
 };
 
 //калькулятор подсчета в остальных формах
@@ -168,6 +231,9 @@ const calculateAdd = () => {
 	}
 
 	formAdd.addEventListener('change', handlerChange);
+	formControl(formAdd, () => {
+		modalAdd.closest('close')
+	})
 
 	const fillInform = (data) => {
 		makeTitel.textContent = data.title
@@ -196,9 +262,12 @@ const init = async () => {
 	});
 	calculateMakeYuorOwn();
 
+	const { resetForm: resetFormMakeYourOwn } = calculateMakeYuorOwn();
+
 	modalController({
 		modal: ".modal__make-your-own",
 		btnOpen: ".coctail__btn-make",
+		close: resetFormMakeYourOwn,
 	});
 
 	const goodsListElem = document.querySelector('.goods__list');
@@ -213,7 +282,7 @@ const init = async () => {
 
 	goodsListElem.append(...cartsCoctail)
 
-	const { fillInform, resetForm } = calculateAdd();
+	const { fillInform: fillInformAdd, resetForm: resetFormAdd } = calculateAdd();
 
 	modalController({
 		modal: '.modal__add',
@@ -222,9 +291,9 @@ const init = async () => {
 		open({ btn }) {
 			const id = btn.dataset.id;
 			const item = data.find(item => item.id.toString() === id);
-			fillInform(item)
+			fillInformAdd(item)
 		},
-		close: resetForm,
+		close: resetFormAdd,
 	})
 
 
@@ -247,7 +316,7 @@ const modalController = ({ modal, btnOpen, time = 300, open, close }) => {
 		const target = event.target;
 		const code = event.code;
 		// условия закрытия модального окна кнопкой Escape
-		if (target === modalElem || code === 'Escape') {
+		if (event === 'close' || target === modalElem || code === 'Escape') {
 			modalElem.style.opacity = 0;
 
 			setTimeout(() => {
@@ -278,6 +347,8 @@ const modalController = ({ modal, btnOpen, time = 300, open, close }) => {
 		buttomElem.addEventListener('click', openModal);
 	})
 	modalElem.addEventListener('click', closeModal);
+	modalElem.closeModal = closeModal;
+	modalElem.openModal = openModal;
 
 	return { openModal, closeModal };
 }
