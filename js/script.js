@@ -72,7 +72,7 @@ const creatCard = (item) => {
 		<button class="btn coctail__btn coctail__btn-add" type="button" data-id = "${item.id}">
 			Добавить
 		</button>
-	
+
 	`
 	return cocktail;
 }
@@ -166,7 +166,7 @@ const formControl = (form, cb) => {
 	})
 }
 
-// данные для калькулятора 
+// данные для калькулятора
 const calculateMakeYuorOwn = () => {
 	const modalMakeOwn = document.querySelector('.modal__make-your-own');
 	const formMakeOwn = modalMakeOwn.querySelector('.make__form-your-own');
@@ -202,9 +202,9 @@ const calculateMakeYuorOwn = () => {
 	hendlerChange();
 
 	const resetForm = () => {
-		makeTitelPrice.textContent = '';
+		makeTotalPrice.textContent = '';
 		makeAddBtn.disabled = true;
-		formAdd.reset();
+		formMakeOwn.reset();
 	}
 
 	return { resetForm };
@@ -221,7 +221,6 @@ const calculateAdd = () => {
 	const makeTitelSize = modalAdd.querySelector('.make__total-size')
 	const makeInputSize = modalAdd.querySelector('.make__input-size')
 	const makeInputStartPrice = modalAdd.querySelector('.make__input-start-price')
-	console.log(makeTitel);
 
 	const handlerChange = () => {
 		const totalPrice = calculateTotalPrice(formAdd, +makeInputStartPrice.value);
@@ -232,7 +231,7 @@ const calculateAdd = () => {
 
 	formAdd.addEventListener('change', handlerChange);
 	formControl(formAdd, () => {
-		modalAdd.closest('close')
+		modalAdd.closeModal('close')
 	})
 
 	const fillInform = (data) => {
@@ -255,10 +254,92 @@ const calculateAdd = () => {
 	return { fillInform, resetForm }
 }
 
-// функция получения данных 
+
+const createCartItem = (item) => {
+	const li = document.createElement('li');
+	li.classList.add("order__item");
+	li.innerHTML = `
+   <img
+                src="img/order-img-2.jpg"
+                alt="${item.title}"
+                class="order__img"
+              />
+              <div class="order__info">
+                <h3 class="order__name">${item.title}</h3>
+                <ul class="order__topping-list">
+                  <li class="order__topping-item">${item.size}</li>
+                  <li class="order__topping-item">${item.cup}</li>
+						${item.toppings
+			? (Array.isArray(item.toppings) ? item.toppings.map((toppings) =>
+				`<li class="order__topping-item">${toppings}</li>`)
+				: `<li class="order__topping-item">${item.toppings}</li>`)
+			: ""
+		}
+                </ul >
+              </div >
+              <button
+                class="order__item-delete"
+                type="button"
+                aria-label="удалить коктаиль из корзины"
+					 data-idls ="${item.idls}"
+              ></button>
+              <p class="order__item-price">${item.price}&nbsp; ₽</p>
+`
+	return li;
+}
+
+const renderCart = () => {
+	const modalOrder = document.querySelector('.modal__order');
+	const orderCount = modalOrder.querySelector(".order__count");
+	const orderList = modalOrder.querySelector(".order__list");
+	const orderTotalPrice = modalOrder.querySelector(".order__total-price");
+	const orderForm = modalOrder.querySelector(".order__form");
+
+	const orderListData = cartDataControl.get();
+
+	orderList.textContent = '';
+	orderCount.textContent = `(${orderListData.length})`;
+
+	orderListData.forEach(item => {
+		orderList.append(createCartItem(item));
+	})
+
+	orderTotalPrice.textContent = `${orderListData.reduce((acc, item) => acc + +item.price, 0)}₽`;
+
+	orderForm.addEventListener('submit', async (e) => {
+		e.preventDefault();
+		if (!orderListData.length) {
+			alert('Корзина пустая');
+			orderForm.reset();
+			modalOrder.closeModal('close');
+			return
+		}
+
+		const data = getFormData(orderForm);
+		const response = await fetch(`${API_URL}api/order`, {
+			method: "POST",
+			body: JSON.stringify({
+				...data,
+				products: orderListData,
+			}),
+			headers: {
+				"Content-Type": "application / json",
+			}
+		})
+		const message = await response.json();
+		alert(message);
+		cartDataControl.clear();
+		orderForm.reset();
+		modalOrder.closeModal('close');
+	})
+
+}
+
+// функция получения данных
 const init = async () => {
 	modalController({
 		modal: '.modal__order', btnOpen: '.header__btn-order',
+		open: renderCart,
 	});
 	calculateMakeYuorOwn();
 
@@ -305,10 +386,10 @@ const modalController = ({ modal, btnOpen, time = 300, open, close }) => {
 	const modalElem = document.querySelector(modal);
 
 	modalElem.style.cssText = `
-	display:flex;
-	visibility:hidden;
-	opacity:0;
-	transution: opacity ${time}ms ease-in-out
+display: flex;
+visibility: hidden;
+opacity: 0;
+transution: opacity ${time}ms ease -in -out
 	`
 
 	// функция закрытия модального окна
