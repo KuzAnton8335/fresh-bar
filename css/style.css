@@ -774,7 +774,7 @@ iframe {
   }
 
   .hero__cups {
-    padding-top: 126px;
+    padding-top: 110px;
     gap: 13px;
   }
 
@@ -783,45 +783,49 @@ iframe {
   }
 
   .hero__img {
-    bottom: 11%;
+    bottom: 2%;
+  }
+
+  .hero__cup-orange {
+    margin-top: -36px;
   }
 
   .decor__img-01 {
-    width: 131px;
-    height: 125px;
-    top: 24%;
-    left: 1.5%;
+    width: 76px;
+    height: 73px;
+    top: 20%;
+    left: -2.5%;
   }
   .decor__img-02 {
-    width: 180px;
-    height: 147px;
+    width: 72px;
+    height: 58px;
     top: 10%;
     right: 6%;
   }
   .decor__img-03 {
-    width: 46px;
-    height: 41px;
-    top: 34%;
-    right: 0%;
+    width: 22px;
+    height: 19px;
+    top: 30%;
+    right: -1%;
   }
   .decor__img-04 {
-    width: 46px;
-    height: 41px;
-    top: 51%;
+    width: 25px;
+    height: 23px;
+    top: 45%;
     left: 37%;
   }
 
   .decor__img-05 {
-    width: 109px;
-    height: 114px;
+    width: 41px;
+    height: 44px;
     top: 90%;
-    left: 27%;
+    left: 28%;
   }
   .decor__img-06 {
-    width: 129px;
-    height: 124px;
-    top: 87%;
-    right: -3%;
+    width: 96px;
+    height: 93px;
+    top: 90%;
+    right: -4%;
   }
 
   .goods {
@@ -876,11 +880,11 @@ iframe {
     padding-bottom: 24px;
   }
   .footer__container {
-    gap: 24px;
+    gap: 19px;
   }
 
   .footer__item {
-    margin-bottom: 6pxp;
+    margin-bottom: 6px;
   }
 }
 
